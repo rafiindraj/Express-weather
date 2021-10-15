@@ -2,10 +2,10 @@ const request = require('request')
 
 const url = 'http://api.weatherstack.com/current?access_key=2c94d99fc0d6151701d3b572a165ac87&query=37.8267,-122.42333'
 
-request({url: url},(error, response)=>{
+request({url: url, json: true},(error, response)=>{
     // console.log(response)
-    const data = JSON.parse(response.body)
-    console.log(data.current)
+    // const data = JSON.parse(response.body)
+    console.log(response.body.current)
 })
 // console.log('Starting')
 
