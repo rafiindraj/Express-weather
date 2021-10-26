@@ -1,6 +1,7 @@
 const request = require('request')
 const geocode = require('./utils/geocode')
-
+const forecast = require('./utils/forecast')
+const address = process.argv[2]
 const url = 'http://api.weatherstack.com/current?access_key=2c94d99fc0d6151701d3b572a165ac87&query=37.8267,-122.42333'
 const geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/Los%20Angeles.json?access_token=pk.eyJ1IjoicmFmaWluZHJhaiIsImEiOiJja3VydXB2dHY1OTR4MndtYXpyZDJvYWdmIn0.3tbbXmWrx1smiRSG8uZDVw&limit=1'
 
@@ -34,11 +35,24 @@ const geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/Los%20Ange
 // })
 
 
+if (!address) {
+    console.log('Please provide an address')
+} else {
+    geocode(address, (error, { latitude, longitude, location }) => {
+        if (error) {
+            return console.log(error)
+        }
 
-geocode('Boston', (error, data) => {
-    console.log('Error', error)
-    console.log('Data', data)
-})
+        forecast(latitude, longitude, (error, forecastData) => {
+            if (error) {
+                return console.log(error)
+            }
+
+            console.log(location)
+            console.log(forecastData)
+        })
+    })
+}
 // console.log('Starting')
 
 // setTimeout(()=>{
